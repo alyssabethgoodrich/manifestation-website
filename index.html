@@ -5,14 +5,232 @@
   <meta http-equiv="Content-Style-Type" content="text/css">
   <meta name="viewpoint" content="width=device-width, initial-scale=1">
   <title>Daily Manifestion Prompt</title>  
+  <style type="text/css">
+  	button {
+            margin-top: 0.5rem;
+            padding: 10px 10px 10px 10px;
+            background: purple;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            transition: all linear 0.5s;
+            cursor: pointer;
+        }
+        button:hover {
+            transform: translate(0px, -5px);
+        }
+
+  </style>
   <meta name="Generator" content="Cocoa HTML Writer">
   <meta name="CocoaVersion" content="2487.6">
   <style type="text/css">
   </style>
+  <script type="text/javascript">
+// <![CDATA[
+var colour="random"; // in addition to "random" can be set to any valid colour eg "#f0f" or "red"
+var sparkles=50;
+
+/****************************
+*  Tinkerbell Magic Sparkle *
+*(c)2005-13 mf2fm web-design*
+*  http://www.mf2fm.com/rv  *
+* DON'T EDIT BELOW THIS BOX *
+****************************/
+var x=ox=400;
+var y=oy=300;
+var swide=800;
+var shigh=600;
+var sleft=sdown=0;
+var tiny=new Array();
+var star=new Array();
+var starv=new Array();
+var starx=new Array();
+var stary=new Array();
+var tinyx=new Array();
+var tinyy=new Array();
+var tinyv=new Array();
+
+window.onload=function() { if (document.getElementById) {
+  var i, rats, rlef, rdow;
+  for (var i=0; i<sparkles; i++) {
+    var rats=createDiv(3, 3);
+    rats.style.visibility="hidden";
+    rats.style.zIndex="999";
+    document.body.appendChild(tiny[i]=rats);
+    starv[i]=0;
+    tinyv[i]=0;
+    var rats=createDiv(5, 5);
+    rats.style.backgroundColor="transparent";
+    rats.style.visibility="hidden";
+    rats.style.zIndex="999";
+    var rlef=createDiv(1, 5);
+    var rdow=createDiv(5, 1);
+    rats.appendChild(rlef);
+    rats.appendChild(rdow);
+    rlef.style.top="2px";
+    rlef.style.left="0px";
+    rdow.style.top="0px";
+    rdow.style.left="2px";
+    document.body.appendChild(star[i]=rats);
+  }
+  set_width();
+  sparkle();
+}}
+
+function sparkle() {
+  var c;
+  if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+    ox=x;
+    oy=y;
+    for (c=0; c<sparkles; c++) if (!starv[c]) {
+      star[c].style.left=(starx[c]=x)+"px";
+      star[c].style.top=(stary[c]=y+1)+"px";
+      star[c].style.clip="rect(0px, 5px, 5px, 0px)";
+      star[c].childNodes[0].style.backgroundColor=star[c].childNodes[1].style.backgroundColor=(colour=="random")?newColour():colour;
+      star[c].style.visibility="visible";
+      starv[c]=50;
+      break;
+    }
+  }
+  for (c=0; c<sparkles; c++) {
+    if (starv[c]) update_star(c);
+    if (tinyv[c]) update_tiny(c);
+  }
+  setTimeout("sparkle()", 40);
+}
+
+function update_star(i) {
+  if (--starv[i]==25) star[i].style.clip="rect(1px, 4px, 4px, 1px)";
+  if (starv[i]) {
+    stary[i]+=1+Math.random()*3;
+    starx[i]+=(i%5-2)/5;
+    if (stary[i]<shigh+sdown) {
+      star[i].style.top=stary[i]+"px";
+      star[i].style.left=starx[i]+"px";
+    }
+    else {
+      star[i].style.visibility="hidden";
+      starv[i]=0;
+      return;
+    }
+  }
+  else {
+    tinyv[i]=50;
+    tiny[i].style.top=(tinyy[i]=stary[i])+"px";
+    tiny[i].style.left=(tinyx[i]=starx[i])+"px";
+    tiny[i].style.width="2px";
+    tiny[i].style.height="2px";
+    tiny[i].style.backgroundColor=star[i].childNodes[0].style.backgroundColor;
+    star[i].style.visibility="hidden";
+    tiny[i].style.visibility="visible"
+  }
+}
+
+function update_tiny(i) {
+  if (--tinyv[i]==25) {
+    tiny[i].style.width="1px";
+    tiny[i].style.height="1px";
+  }
+  if (tinyv[i]) {
+    tinyy[i]+=1+Math.random()*3;
+    tinyx[i]+=(i%5-2)/5;
+    if (tinyy[i]<shigh+sdown) {
+      tiny[i].style.top=tinyy[i]+"px";
+      tiny[i].style.left=tinyx[i]+"px";
+    }
+    else {
+      tiny[i].style.visibility="hidden";
+      tinyv[i]=0;
+      return;
+    }
+  }
+  else tiny[i].style.visibility="hidden";
+}
+
+document.onmousemove=mouse;
+function mouse(e) {
+  if (e) {
+    y=e.pageY;
+    x=e.pageX;
+  }
+  else {
+    set_scroll();
+    y=event.y+sdown;
+    x=event.x+sleft;
+  }
+}
+
+window.onscroll=set_scroll;
+function set_scroll() {
+  if (typeof(self.pageYOffset)=='number') {
+    sdown=self.pageYOffset;
+    sleft=self.pageXOffset;
+  }
+  else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+    sdown=document.body.scrollTop;
+    sleft=document.body.scrollLeft;
+  }
+  else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+    sleft=document.documentElement.scrollLeft;
+    sdown=document.documentElement.scrollTop;
+  }
+  else {
+    sdown=0;
+    sleft=0;
+  }
+}
+
+window.onresize=set_width;
+function set_width() {
+  var sw_min=999999;
+  var sh_min=999999;
+  if (document.documentElement && document.documentElement.clientWidth) {
+    if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+    if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+  }
+  if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+    if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+    if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+  }
+  if (document.body.clientWidth) {
+    if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+    if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+  }
+  if (sw_min==999999 || sh_min==999999) {
+    sw_min=800;
+    sh_min=600;
+  }
+  swide=sw_min;
+  shigh=sh_min;
+}
+
+function createDiv(height, width) {
+  var div=document.createElement("div");
+  div.style.position="absolute";
+  div.style.height=height+"px";
+  div.style.width=width+"px";
+  div.style.overflow="hidden";
+  return (div);
+}
+
+function newColour() {
+  var c=new Array();
+  c[0]=255;
+  c[1]=Math.floor(Math.random()*256);
+  c[2]=Math.floor(Math.random()*(256-c[1]/2));
+  c.sort(function(){return (0.5 - Math.random());});
+  return ("rgb("+c[0]+", "+c[1]+", "+c[2]+")");
+}
+// ]]>
+</script>
 </head> 
+
 	<h1> Daily Manifestion Prompt </h1>
 	<hr>
+<body style="background-color: #EDAEC0;">
+
 <body>
+
 	<h2> Take time for yourself this morning </h2>
 	<hr>
 	<div>
@@ -23,124 +241,140 @@
 	<div>
 		<div id="output"></div>
 
+	<!-- // new manifestation added by the user	 -->
+<input id="addedManifestation" placeholder= "Enter your manifestion">
+		<button onclick ="addManifestation()" id =  "btn1">Submit your manifestation</button>
+
+
+
 	<script type="text/javascript">
+		var theManifestation= [
+			" I am creating my ideal day and embracing every moment"
+			// " I feel empowered and fulfilled as I achieve my biggest goals",
+			// " I am grateful for the abundance in my life and welcome more every day",
+			// " I am becoming the person who effortlessly reaches my dreams",
+			// " I am incorporating positive habits into my routine to support my success",
+			// " I am bringing more joy into my life right now and savoring it",
+			// " I am taking meaningful actions today that bring me closer to my goals",
+			// " I am releasing limiting beliefs and opening myself to limitless possibilities",
+			// " I am celebrating my small victories and acknowledging my progress",
+			// " I am attracting financial abundance and creating a secure future",
+			// " I am drawing more love and kindness into my life",
+			// " I am developing new skills that enhance my personal and professional growth",
+			// " I am defining success on my own terms and achieving it",
+			// " I am creating an environment that supports and nurtures my dreams",
+			// " I am connecting with supportive people who uplift and encourage me",
+			// " I am prioritizing what truly matters and focusing my energy on these areas",
+			// " I am boosting my confidence and embracing my unique strengths",
+			// " I am feeling positive and energized every day",
+			// " I am aligning my actions with my core values and living authentically",
+			// " I am cultivating enriching and meaningful relationships",
+			// " I am practicing effective self-care and honoring my well-being",
+			// " I am open to new opportunities and welcoming them with enthusiasm",
+			// " I am overcoming obstacles with resilience and strength",
+			// " I am pursuing my passions boldly, free from the fear of failure",
+			// " I am affirming positive beliefs and manifesting my desires daily",
+			// " I am using my talents to make a positive impact on the world",
+			// " I am creating a legacy of inspiration, love, and success",
+			// " I am growing personally and embracing every opportunity for self-improvement",
+			// " I am resilient and adaptable, thriving through any challenge",
+			// " I am celebrating and appreciating the qualities that make me unique",
+			// " I am creating balance in my life and nurturing all aspects of my well-being",
+			// " I am experiencing inner peace and serenity in every moment",
+			// " I am enhancing my creativity and letting it flow freely",
+			// " I am taking steps towards my dream career and making it a reality",
+			// " I am manifesting vibrant health and wellness in my life",
+			// " I am defining happiness for myself and living it fully",
+			// " I am improving my financial situation and attracting prosperity",
+			// " I am pursuing my biggest dreams and taking inspired actions to achieve them",
+			// " I am aligning my actions with my values and living authentically",
+			// " I am building a strong support system that empowers me",
+			// " I am living a fulfilling life and embracing every experience it offers",
+			// " I am strengthening my self-discipline and achieving my goals",
+			// " I am improving my relationships and fostering deeper connections",
+			// " I am managing my time and energy effectively and making the most of each day",
+			// " I am living without limitations and embracing endless possibilities",
+			// " I am cultivating a positive mindset and focusing on the good",
+			// " I am integrating my passions into my life and thriving because of it",
+			// " I am setting achievable goals and taking consistent actions to reach them",
+			// " I am at peace with myself and fully accepting of who I am",
+			// " I am connecting deeply with my higher self and following its guidance",
+			// " I am attracting enriching and exciting experiences into my life",
+			// " I am being present and fully engaged in each moment of my life",
+			// " I am recognizing and utilizing my greatest strengths",
+			// " I am manifesting my dream home and creating a space that reflects my desires",
+			// " I am defining success in my personal life and achieving it",
+			// " I am being authentic in my interactions and embracing my true self",
+			// " I am experiencing spiritual abundance and living in alignment with it",
+			// " I am trusting my intuition to guide me towards my best life",
+			// " I am facing my fears with courage and growing beyond them",
+			// " I am improving my relationship with money and attracting financial well-being",
+			// " I am creating a fulfilling career that aligns with my passions and values",
+			// " I am enhancing my self-love and acceptance each day",
+			// " I am making a positive impact on the world through my actions",
+			// " I am manifesting meaningful connections and nurturing them",
+			// " I am achieving a perfect work-life balance and thriving in both areas",
+			// " I am attracting positivity and radiating it in every aspect of my life",
+			// " I am embodying the qualities of the person I aspire to be",
+			// " I am creating harmony in my life and feeling balanced and content",
+			// " I am taking actionable steps towards achieving my long-term goals",
+			// " I am nurturing my creativity and allowing innovative ideas to flourish",
+			// " I am envisioning a perfect day in my ideal job and working towards it",
+			// " I am managing stress and anxiety with grace and ease",
+			// " I am aligned with my purpose and experiencing profound fulfillment",
+			// " I am enhancing my communication skills and connecting deeply with others",
+			// " I am setting and achieving my most important goals for the next five years",
+			// " I am turning my dreams into reality through dedicated effort and action",
+			// " I am experiencing true fulfillment and living a purpose-driven life",
+			// " I am bringing mindfulness into my daily routine and savoring the present",
+			// " I am boosting my self-esteem and embracing my worth",
+			// " I am creating opportunities for personal growth and seizing them",
+			// " I am living my dream life and feeling grateful for every moment",
+			// " I am resilient and adaptable, thriving through challenges",
+			// " I am letting go of what no longer serves me and embracing new possibilities",
+			// " I am aligning my work with my personal values and finding fulfillment",
+			// " I am making positive changes in my daily habits and seeing great results",
+			// " I am attracting and maintaining healthy relationships that enrich my life",
+			// " I am living with purpose and finding meaning in every experience",
+			// " I am fostering a deep sense of inner calm and tranquility",
+			// " I am achieving financial freedom and enjoying a life of abundance",
+			// " I am balancing ambition with contentment and finding joy in the journey",
+			// " I am feeling fully supported in my endeavors and confident in my path",
+			// " I am listening to and trusting my intuition as it guides me",
+			// " I am pursuing personal development and growing into my best self",
+			// " I am creating a positive and inspiring environment that nurtures my dreams",
+			// " I am prioritizing my health and well-being and experiencing success in both",
+			// " I am cultivating gratitude and appreciating the abundance in my life",
+			// " I am living authentically and true to myself, feeling deeply fulfilled",
+			// " I am being proactive in achieving my goals and making progress daily",
+			// " I am staying motivated and inspired as I work towards my dreams",
+			// " I am maintaining a positive outlook and thriving even in challenging times",
+			];
+
+
 		var btn = document.querySelector("button");
 		var out = document.getElementById("output");
 
 		btn.addEventListener("click", getManifestation);
 
 		function getManifestation(){
-
-			var theManifestation= [
-			" I am creating my ideal day and embracing every moment",
-" I feel empowered and fulfilled as I achieve my biggest goals",
-" I am grateful for the abundance in my life and welcome more every day",
-" I am becoming the person who effortlessly reaches my dreams",
-" I am incorporating positive habits into my routine to support my success",
-" I am bringing more joy into my life right now and savoring it",
-" I am taking meaningful actions today that bring me closer to my goals",
-" I am releasing limiting beliefs and opening myself to limitless possibilities",
-" I am celebrating my small victories and acknowledging my progress",
-" I am attracting financial abundance and creating a secure future",
-" I am drawing more love and kindness into my life",
-" I am developing new skills that enhance my personal and professional growth",
-" I am defining success on my own terms and achieving it",
-" I am creating an environment that supports and nurtures my dreams",
-" I am connecting with supportive people who uplift and encourage me",
-" I am prioritizing what truly matters and focusing my energy on these areas",
-" I am boosting my confidence and embracing my unique strengths",
-" I am feeling positive and energized every day",
-" I am aligning my actions with my core values and living authentically",
-" I am cultivating enriching and meaningful relationships",
-" I am practicing effective self-care and honoring my well-being",
-" I am open to new opportunities and welcoming them with enthusiasm",
-" I am overcoming obstacles with resilience and strength",
-" I am pursuing my passions boldly, free from the fear of failure",
-" I am affirming positive beliefs and manifesting my desires daily",
-" I am using my talents to make a positive impact on the world",
-" I am creating a legacy of inspiration, love, and success",
-" I am growing personally and embracing every opportunity for self-improvement",
-" I am resilient and adaptable, thriving through any challenge",
-" I am celebrating and appreciating the qualities that make me unique",
-" I am creating balance in my life and nurturing all aspects of my well-being",
-" I am experiencing inner peace and serenity in every moment",
-" I am enhancing my creativity and letting it flow freely",
-" I am taking steps towards my dream career and making it a reality",
-" I am manifesting vibrant health and wellness in my life",
-" I am defining happiness for myself and living it fully",
-" I am improving my financial situation and attracting prosperity",
-" I am pursuing my biggest dreams and taking inspired actions to achieve them",
-" I am aligning my actions with my values and living authentically",
-" I am building a strong support system that empowers me",
-" I am living a fulfilling life and embracing every experience it offers",
-" I am strengthening my self-discipline and achieving my goals",
-" I am improving my relationships and fostering deeper connections",
-" I am managing my time and energy effectively and making the most of each day",
-" I am living without limitations and embracing endless possibilities",
-" I am cultivating a positive mindset and focusing on the good",
-" I am integrating my passions into my life and thriving because of it",
-" I am setting achievable goals and taking consistent actions to reach them",
-" I am at peace with myself and fully accepting of who I am",
-" I am connecting deeply with my higher self and following its guidance",
-" I am attracting enriching and exciting experiences into my life",
-" I am being present and fully engaged in each moment of my life",
-" I am recognizing and utilizing my greatest strengths",
-" I am manifesting my dream home and creating a space that reflects my desires",
-" I am defining success in my personal life and achieving it",
-" I am being authentic in my interactions and embracing my true self",
-" I am experiencing spiritual abundance and living in alignment with it",
-" I am trusting my intuition to guide me towards my best life",
-" I am facing my fears with courage and growing beyond them",
-" I am improving my relationship with money and attracting financial well-being",
-" I am creating a fulfilling career that aligns with my passions and values",
-" I am enhancing my self-love and acceptance each day",
-" I am making a positive impact on the world through my actions",
-" I am manifesting meaningful connections and nurturing them",
-" I am achieving a perfect work-life balance and thriving in both areas",
-" I am attracting positivity and radiating it in every aspect of my life",
-" I am embodying the qualities of the person I aspire to be",
-" I am creating harmony in my life and feeling balanced and content",
-" I am taking actionable steps towards achieving my long-term goals",
-" I am nurturing my creativity and allowing innovative ideas to flourish",
-" I am envisioning a perfect day in my ideal job and working towards it",
-" I am managing stress and anxiety with grace and ease",
-" I am aligned with my purpose and experiencing profound fulfillment",
-" I am enhancing my communication skills and connecting deeply with others",
-" I am setting and achieving my most important goals for the next five years",
-" I am turning my dreams into reality through dedicated effort and action",
-" I am experiencing true fulfillment and living a purpose-driven life",
-" I am bringing mindfulness into my daily routine and savoring the present",
-" I am boosting my self-esteem and embracing my worth",
-" I am creating opportunities for personal growth and seizing them",
-" I am living my dream life and feeling grateful for every moment",
-" I am resilient and adaptable, thriving through challenges",
-" I am letting go of what no longer serves me and embracing new possibilities",
-" I am aligning my work with my personal values and finding fulfillment",
-" I am making positive changes in my daily habits and seeing great results",
-" I am attracting and maintaining healthy relationships that enrich my life",
-" I am living with purpose and finding meaning in every experience",
-" I am fostering a deep sense of inner calm and tranquility",
-" I am achieving financial freedom and enjoying a life of abundance",
-" I am balancing ambition with contentment and finding joy in the journey",
-" I am feeling fully supported in my endeavors and confident in my path",
-" I am listening to and trusting my intuition as it guides me",
-" I am pursuing personal development and growing into my best self",
-" I am creating a positive and inspiring environment that nurtures my dreams",
-" I am prioritizing my health and well-being and experiencing success in both",
-" I am cultivating gratitude and appreciating the abundance in my life",
-" I am living authentically and true to myself, feeling deeply fulfilled",
-" I am being proactive in achieving my goals and making progress daily",
-" I am staying motivated and inspired as I work towards my dreams",
-" I am maintaining a positive outlook and thriving even in challenging times",
-
-			];
+			
 
 			var maniNum = Math.floor(Math.random() * theManifestation.length);
 
 			output.textContent = theManifestation[maniNum];
+}
 
-		}
+function addManifestation()
+{
+	var str = document.getElementById("addedManifestation").value;
+	theManifestation.push(str);
+	alert("Thank you for submitting your manifestation: "+str)
 
-</script>	
+}
+
+
+
+</script>
 </body>
 </html>
